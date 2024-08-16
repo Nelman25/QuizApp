@@ -35,6 +35,7 @@ const Quiz = () => {
     return (
         <div>
             <QuestionTimer
+                key={currentActiveQuestion}
                 timeout={10000}
                 onTimeout={handleSkipAnswer}
             />

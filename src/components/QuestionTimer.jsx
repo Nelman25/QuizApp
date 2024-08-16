@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 
@@ -6,14 +7,22 @@ const QuestionTimer = ({ timeout, onTimeout }) => {
 
     useEffect(() => {
         console.log("SET TIMEOUT");
-        setTimeout(onTimeout, timeout);
+        const timer = setTimeout(onTimeout, timeout);
+
+        return () => {
+            clearTimeout(timer);
+        };
     }, [timeout, onTimeout]);
 
     useEffect(() => {
         console.log("SET INTERVAL");
-        setInterval(() => {
+        const interval = setInterval(() => {
             setRemainingTime((prevRemainingTime) => prevRemainingTime - 100);
         }, 100);
+
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     return <progress max={timeout} value={remainingTime} />;
