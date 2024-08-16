@@ -2,6 +2,7 @@
 import { useState } from "react";
 import QUESTIONS from "../Questions.js";
 import quizCompleteImg from "../assets/quiz-complete.png";
+import QuestionTimer from "./QuestionTimer.jsx";
 
 const Quiz = () => {
     const [userAnswers, setUserAnswers] = useState([]);
@@ -31,6 +32,10 @@ const Quiz = () => {
     return (
         <div className="flex justify-center items-center w-2/3 mx-auto">
             <div className="flex-1 bg-white lg:max-w-[700px] py-16 px-16 sm:min-h-[600px] rounded-xl shadow-2xl border border-slate-500">
+                <QuestionTimer
+                    timeout={10000}
+                    onTimeout={() => handleSubmitAnswer(null)}
+                />
                 <h2 className="text-3xl font-bold leading-normal max-sm:text-lg text-center">
                     {QUESTIONS[currentActiveQuestion].text}
                 </h2>
