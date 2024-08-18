@@ -1,11 +1,11 @@
-import quizLogo from "../assets/quiz-logo.png";
+import quizLogo from "../assets/Quiz-logo.png";
 
 const Header = () => {
     return (
-        <header className="flex flex-col items-center justify-center my-8 mx-0">
-            <img src={quizLogo} alt="Quiz Logo" width={48} height={48} />
-            <h1 className="text-4xl font-bold font-serif bg-gradient-to-r from-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
-                React Quiz
+        <header className="flex flex-col items-center justify-center my-12 mx-0">
+            <img src={quizLogo} alt="Quiz Logo" width={84} height={84} />
+            <h1 className="text-[3rem] font-bold font-serif bg-gradient-to-r from-blue-600 to-yellow-600 bg-clip-text text-transparent">
+            Quizzo
             </h1>
         </header>
     );

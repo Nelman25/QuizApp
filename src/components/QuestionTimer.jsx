@@ -25,7 +25,13 @@ const QuestionTimer = ({ timeout, onTimeout }) => {
         };
     }, []);
 
-    return <progress max={timeout} value={remainingTime} />;
+    return (
+        <progress
+            max={timeout}
+            value={remainingTime}
+            className="[&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-blue-400 [&::-moz-progress-bar]:bg-blue-400 w-[40%] my-4 bg-yellow-300 rounded-md h-6"
+        />
+    );
 };
 
 export default QuestionTimer;
