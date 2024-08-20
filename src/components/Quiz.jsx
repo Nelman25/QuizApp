@@ -5,16 +5,41 @@ import quizCompleted from "../assets/quiz-complete.png";
 import QuestionTimer from "./QuestionTimer.jsx";
 
 const Quiz = () => {
+    const [answerState, setAnswerState] = useState("");
     const [userAnswers, setUserAnswers] = useState([]);
 
-    const currentActiveQuestion = userAnswers.length;    
+    console.log(
+        "the whole component is being rerendered when you clicked a button"
+    );
+
+    const currentActiveQuestion =
+        answerState === "" ? userAnswers.length : userAnswers.length - 1;
     const quizIsComplete = currentActiveQuestion === QUESTIONS.length;
 
-    const handleSubmitAnswer = useCallback((selectedAnswer) => {
-        setUserAnswers((prevState) => {
-            return [...prevState, selectedAnswer];
-        });
-    }, []);
+    const handleSubmitAnswer = useCallback(
+        (selectedAnswer) => {
+            setAnswerState("answered");
+            setUserAnswers((prevState) => {
+                return [...prevState, selectedAnswer];
+            });
+
+            setTimeout(() => {
+                if (
+                    selectedAnswer ===
+                    QUESTIONS[currentActiveQuestion].answers[0]
+                ) {
+                    setAnswerState("correct");
+                } else {
+                    setAnswerState("wrong");
+                }
+
+                setTimeout(() => {
+                    setAnswerState("");
+                }, 2000);
+            }, 1000);
+        },
+        [currentActiveQuestion]
+    );
 
     const handleSkipAnswer = useCallback(() => {
         handleSubmitAnswer(null);
@@ -43,16 +68,37 @@ const Quiz = () => {
                 {QUESTIONS[currentActiveQuestion].text}
             </h2>
             <ul className="text-2xl font-bold font-palanquin">
-                {shuffledAnswer.map((answer) => (
-                    <li key={answer} className="min-w-[450px]">
-                        <button
-                            onClick={() => handleSubmitAnswer(answer)}
-                            className="text-white bg-blue-500 py-4 px-8 rounded-full mb-4 w-full shadow-md transition-all hover:scale-103 hover:translate-y-[-6px] hover:bg-yellow-400 hover:text-slate-800 border border-slate-400 active:translate-y-0"
-                        >
-                            {answer}
-                        </button>
-                    </li>
-                ))}
+                {shuffledAnswer.map((answer) => {
+                    const isSelected =
+                        userAnswers[userAnswers.length - 1] === answer;
+                    let styling = "";
+
+                    if (answerState === "answered" && isSelected) {
+                        styling = "selected";
+                    }
+
+                    if (
+                        (answerState === "correct" ||
+                            answerState === "wrong") &&
+                        isSelected
+                    ) {
+                        styling = answerState;
+                    }
+                    return (
+                        <li key={answer} className="min-w-[450px]">
+                            <button
+                                onClick={() => handleSubmitAnswer(answer)}
+                                className={`text-white py-4 px-8 rounded-full mb-4 w-full shadow-md transition-all hover:scale-103 hover:translate-y-[-6px] hover:bg-yellow-400 hover:text-slate-800 border border-slate-400 active:translate-y-0 ${
+                                    styling === ""
+                                        ? "bg-blue-500"
+                                        : `${styling}`
+                                }`}
+                            >
+                                {answer}
+                            </button>
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );
