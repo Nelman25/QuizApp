@@ -2,15 +2,11 @@
 import { useCallback, useState } from "react";
 import QUESTIONS from "../Questions.js";
 import quizCompleted from "../assets/quiz-complete.png";
-import QuestionTimer from "./QuestionTimer.jsx";
+import Question from "./Question.jsx";
 
 const Quiz = () => {
     const [answerState, setAnswerState] = useState("");
     const [userAnswers, setUserAnswers] = useState([]);
-
-    console.log(
-        "the whole component is being rerendered when you clicked a button"
-    );
 
     const currentActiveQuestion =
         answerState === "" ? userAnswers.length : userAnswers.length - 1;
@@ -54,52 +50,17 @@ const Quiz = () => {
         );
     }
 
-    const shuffledAnswer = [...QUESTIONS[currentActiveQuestion].answers];
-    shuffledAnswer.sort(() => Math.random() - 0.5);
-
     return (
-        <div className="flex flex-col justify-center items-center border px-8 border-slate-400 rounded-xl py-8 mx-auto shadow-2xl text-center max-w-[900px] max-xl:w-full">
-            <QuestionTimer
+        <div>
+            <Question
                 key={currentActiveQuestion}
-                timeout={10000}
-                onTimeout={handleSkipAnswer}
+                questionText={QUESTIONS[currentActiveQuestion].text}
+                answers={QUESTIONS[currentActiveQuestion].answers}
+                selectedAnswer={userAnswers[userAnswers.length - 1]}
+                answerState={answerState}
+                onSelectAnswer={handleSubmitAnswer}
+                onSkipAnswer={handleSkipAnswer}
             />
-            <h2 className="font-bold font-montserrat my-8 text-4xl text-slate-700">
-                {QUESTIONS[currentActiveQuestion].text}
-            </h2>
-            <ul className="text-2xl font-bold font-palanquin">
-                {shuffledAnswer.map((answer) => {
-                    const isSelected =
-                        userAnswers[userAnswers.length - 1] === answer;
-                    let styling = "";
-
-                    if (answerState === "answered" && isSelected) {
-                        styling = "selected";
-                    }
-
-                    if (
-                        (answerState === "correct" ||
-                            answerState === "wrong") &&
-                        isSelected
-                    ) {
-                        styling = answerState;
-                    }
-                    return (
-                        <li key={answer} className="min-w-[450px]">
-                            <button
-                                onClick={() => handleSubmitAnswer(answer)}
-                                className={`text-white py-4 px-8 rounded-full mb-4 w-full shadow-md transition-all hover:scale-103 hover:translate-y-[-6px] hover:bg-yellow-400 hover:text-slate-800 border border-slate-400 active:translate-y-0 ${
-                                    styling === ""
-                                        ? "bg-blue-500"
-                                        : `${styling}`
-                                }`}
-                            >
-                                {answer}
-                            </button>
-                        </li>
-                    );
-                })}
-            </ul>
         </div>
     );
 };
