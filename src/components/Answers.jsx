@@ -16,22 +16,27 @@ const Answers = ({ answers, selectedAnswer, answerState, onSelect }) => {
                 let styling = "";
 
                 if (answerState === "answered" && isSelected) {
-                    styling = "selected";
+                    styling =
+                        "text-white py-4 px-8 rounded-full mb-4 w-full shadow-md border-slate-400 bg-blue-900";
                 }
 
-                if (
-                    (answerState === "correct" || answerState === "wrong") &&
-                    isSelected
-                ) {
-                    styling = answerState;
+                if (answerState === "correct" && isSelected) {
+                    styling =
+                        "text-white py-4 px-8 rounded-full mb-4 w-full shadow-md border-slate-400 bg-green-400";
+                } else if (answerState === "wrong" && isSelected) {
+                    styling =
+                        "text-white py-4 px-8 rounded-full mb-4 w-full shadow-md border-slate-400 bg-red-600";
                 }
                 return (
                     <li key={answer} className="min-w-[450px]">
                         <button
                             onClick={() => onSelect(answer)}
-                            className={`text-white py-4 px-8 rounded-full mb-4 w-full shadow-md transition-all hover:scale-103 hover:translate-y-[-6px] hover:bg-yellow-400 hover:text-slate-800 border border-slate-400 active:translate-y-0 ${
-                                styling === "" ? "bg-blue-500" : `${styling}`
-                            }`}
+                            className={`${
+                                styling
+                                    ? `${styling}`
+                                    : "text-white py-4 px-8 rounded-full mb-4 w-full shadow-md transition-all hover:scale-103 hover:translate-y-[-6px] hover:bg-yellow-400 hover:text-slate-800 border border-slate-400 active:translate-y-0 bg-blue-600"
+                            } `}
+                            disabled={answerState !== ''}
                         >
                             {answer}
                         </button>

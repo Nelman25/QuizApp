@@ -5,37 +5,16 @@ import quizCompleted from "../assets/quiz-complete.png";
 import Question from "./Question.jsx";
 
 const Quiz = () => {
-    const [answerState, setAnswerState] = useState("");
     const [userAnswers, setUserAnswers] = useState([]);
 
-    const currentActiveQuestion =
-        answerState === "" ? userAnswers.length : userAnswers.length - 1;
+    const currentActiveQuestion = userAnswers.length;
     const quizIsComplete = currentActiveQuestion === QUESTIONS.length;
 
-    const handleSubmitAnswer = useCallback(
-        (selectedAnswer) => {
-            setAnswerState("answered");
-            setUserAnswers((prevState) => {
-                return [...prevState, selectedAnswer];
-            });
-
-            setTimeout(() => {
-                if (
-                    selectedAnswer ===
-                    QUESTIONS[currentActiveQuestion].answers[0]
-                ) {
-                    setAnswerState("correct");
-                } else {
-                    setAnswerState("wrong");
-                }
-
-                setTimeout(() => {
-                    setAnswerState("");
-                }, 2000);
-            }, 1000);
-        },
-        [currentActiveQuestion]
-    );
+    const handleSubmitAnswer = useCallback((selectedAnswer) => {
+        setUserAnswers((prevState) => {
+            return [...prevState, selectedAnswer];
+        });
+    }, []);
 
     const handleSkipAnswer = useCallback(() => {
         handleSubmitAnswer(null);
@@ -54,10 +33,7 @@ const Quiz = () => {
         <div>
             <Question
                 key={currentActiveQuestion}
-                questionText={QUESTIONS[currentActiveQuestion].text}
-                answers={QUESTIONS[currentActiveQuestion].answers}
-                selectedAnswer={userAnswers[userAnswers.length - 1]}
-                answerState={answerState}
+                questionIndex={currentActiveQuestion}
                 onSelectAnswer={handleSubmitAnswer}
                 onSkipAnswer={handleSkipAnswer}
             />
