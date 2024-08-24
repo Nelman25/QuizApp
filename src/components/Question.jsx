@@ -12,6 +12,16 @@ const Question = ({ questionIndex, onSelectAnswer, onSkipAnswer }) => {
         isCorrect: null,
     });
 
+    let timer = 10000;
+
+    if (answer.selectedAnswer) {
+        timer = 1000;
+    }
+
+    if (answer.isCorrect !== null) {
+        timer = 2000;
+    }
+
     const handleSelectAnswer = (answer) => {
         setAnswer({
             selectedAnswer: answer,
@@ -40,7 +50,11 @@ const Question = ({ questionIndex, onSelectAnswer, onSkipAnswer }) => {
 
     return (
         <div className="flex flex-col justify-center items-center border px-8 border-slate-400 rounded-xl py-8 mx-auto shadow-2xl text-center max-w-[900px] max-xl:w-full">
-            <QuestionTimer timeout={10000} onTimeout={onSkipAnswer} />
+            <QuestionTimer
+                key={timer}
+                timeout={timer}
+                onTimeout={answer.selectedAnswer === "" ? onSkipAnswer : null}
+            />
             <h2 className="font-bold font-montserrat my-8 text-4xl text-slate-700">
                 {QUESTIONS[questionIndex].text}
             </h2>
