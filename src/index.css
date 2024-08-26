@@ -2,3 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .correctAnswer {
+    @apply mb-12 font-medium text-green-400
+  }
+
+  .wrongAnswer {
+    @apply mb-12 font-medium text-red-400
+  }
+
+  .skippedAnswer {
+    @apply mb-12 font-medium text-slate-800
+  }
+}
