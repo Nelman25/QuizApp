@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useCallback, useState } from "react";
 import QUESTIONS from "../Questions.js";
-import quizCompleted from "../assets/quiz-complete.png";
 import Question from "./Question.jsx";
+import Summary from "./Summary.jsx";
 
 const Quiz = () => {
     const [userAnswers, setUserAnswers] = useState([]);
@@ -21,12 +21,7 @@ const Quiz = () => {
     }, [handleSubmitAnswer]);
 
     if (quizIsComplete) {
-        return (
-            <div>
-                <h1>Quiz Complete!</h1>
-                <img src={quizCompleted} alt="trophy image" />
-            </div>
-        );
+        return <Summary userAnswers={userAnswers} />;
     }
 
     return (

@@ -49,7 +49,7 @@ const Question = ({ questionIndex, onSelectAnswer, onSkipAnswer }) => {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center border px-8 border-slate-400 rounded-xl py-8 mx-auto shadow-2xl text-center max-w-[900px] max-xl:w-full">
+        <div className="flex flex-col justify-center items-center border px-8 bg-yellow-200 border-slate-400 rounded-xl py-8 mx-auto shadow-2xl text-center max-w-[900px] max-xl:w-full">
             <QuestionTimer
                 key={timer}
                 timeout={timer}
